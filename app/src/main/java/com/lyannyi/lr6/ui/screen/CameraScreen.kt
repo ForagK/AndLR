@@ -21,7 +21,6 @@ import androidx.core.content.ContextCompat
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import com.lyannyi.lr6.R
 
-@androidx.compose.ui.tooling.preview.Preview
 @Composable
 fun CameraScreen() {
     val context = LocalContext.current
