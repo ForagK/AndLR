@@ -1,7 +1,6 @@
 package com.lyannyi.lr6.ui.screen
 
 import android.media.MediaPlayer
-import android.util.Log
 import androidx.camera.core.*
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.camera.view.PreviewView
