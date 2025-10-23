@@ -1,35 +1,44 @@
 package com.lyannyi.lr7.viewmodel
 
-import android.os.Environment
-import androidx.compose.runtime.getValue
+import android.content.Context
+import android.net.Uri
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
+import androidx.documentfile.provider.DocumentFile
 import androidx.lifecycle.ViewModel
-import java.io.File
 
 class FileManagerViewModel : ViewModel()  {
-    val rootDir = Environment.getExternalStorageDirectory()
-    var currentDir = mutableStateOf(rootDir)
-    var files = mutableStateOf(rootDir.listFiles()?.toList() ?: emptyList())
+    var currentDir = mutableStateOf<DocumentFile?>(null)
 
-    fun openDirectory(dir: File) {
+    var files = mutableStateOf<List<DocumentFile>>(emptyList())
+
+    fun setRootDir(uri: Uri, context: Context) {
+        val docFile = DocumentFile.fromTreeUri(context, uri)
+        currentDir.value = docFile
+        files.value = docFile?.listFiles()?.toList() ?: emptyList()
+    }
+
+    fun openDirectory(dir: DocumentFile) {
         if (dir.isDirectory) {
             currentDir.value = dir
-            files.value = dir.listFiles()?.toList() ?: emptyList()
+            files.value = dir.listFiles().toList()
         }
     }
 
     fun goBack() {
-        currentDir.value.parentFile?.let {
+        currentDir.value?.parentFile?.let {
             currentDir.value = it
-            files.value = it.listFiles()?.toList() ?: emptyList()
+            files.value = it.listFiles().toList()
         }
     }
 
     fun createItem(name: String, createFolder: Boolean) {
-        val newFile = File(currentDir.value, name)
-        if (createFolder) newFile.mkdir() else newFile.createNewFile()
-        files.value = currentDir.value.listFiles()?.toList() ?: emptyList()
+        currentDir.value?.let { dir ->
+            if (createFolder) {
+                dir.createDirectory(name)
+            } else {
+                dir.createFile("application/octet-stream", name)
+            }
+            files.value = dir.listFiles().toList()
+        }
     }
 }

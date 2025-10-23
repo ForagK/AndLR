@@ -8,16 +8,16 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import java.io.File
+import androidx.documentfile.provider.DocumentFile
 
 @Composable
-fun FileItem(file: File, onClick: () -> Unit) {
+fun FileItem(file: DocumentFile, onClick: () -> Unit) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
             .clickable { onClick() }
             .padding(12.dp)
     ) {
-        Text(file.name + if (file.isDirectory) "/" else "")
+        Text((file.name ?: "Unknown") + if (file.isDirectory) "/" else "")
     }
 }
