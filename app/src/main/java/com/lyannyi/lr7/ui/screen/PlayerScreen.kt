@@ -1,4 +1,4 @@
-package com.lyannyi.lr6.ui.screen
+package com.lyannyi.lr7.ui.screen
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -10,7 +10,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
-import com.lyannyi.lr6.viewmodel.PlayerViewModel
+import com.lyannyi.lr7.viewmodel.PlayerViewModel
 import kotlinx.coroutines.delay
 
 @Composable
@@ -20,9 +20,13 @@ fun PlayerScreen(viewModel: PlayerViewModel) {
     val selectedTrack by viewModel.selectedTrack
     val currentPosition by viewModel.currentPosition
     val duration by viewModel.duration
-    val tracks = viewModel.getTracks()
+    val tracks = viewModel.tracks
 
     var expanded by remember { mutableStateOf(false) }
+
+    LaunchedEffect(Unit) {
+        viewModel.loadTracks(context)
+    }
 
     LaunchedEffect(isPlaying) {
         while (isPlaying) {
@@ -36,13 +40,12 @@ fun PlayerScreen(viewModel: PlayerViewModel) {
             .fillMaxSize()
             .padding(16.dp)
     ) {
-
         Box(modifier = Modifier.fillMaxWidth()) {
             OutlinedTextField(
                 value = selectedTrack,
                 onValueChange = {},
                 readOnly = true,
-                label = { Text("") },
+                label = { Text("Select track") },
                 trailingIcon = {
                     Icon(
                         imageVector = if (expanded) Icons.Filled.KeyboardArrowUp else Icons.Filled.KeyboardArrowDown,
@@ -58,12 +61,12 @@ fun PlayerScreen(viewModel: PlayerViewModel) {
                 onDismissRequest = { expanded = false },
                 modifier = Modifier.fillMaxWidth()
             ) {
-                tracks.forEach { (name, _) ->
+                tracks.forEach { track ->
                     DropdownMenuItem(
-                        text = { Text(name) },
+                        text = { Text(track.name) },
                         onClick = {
                             expanded = false
-                            viewModel.selectTrack(context, name)
+                            viewModel.selectTrack(context, track)
                         }
                     )
                 }
@@ -76,7 +79,7 @@ fun PlayerScreen(viewModel: PlayerViewModel) {
             onClick = { viewModel.switchPause() },
             enabled = selectedTrack.isNotEmpty()
         ) {
-            Text(if (isPlaying) "Pause" else "Resume")
+            Text(if (isPlaying) "Pause" else "Play")
         }
 
         Spacer(modifier = Modifier.height(20.dp))

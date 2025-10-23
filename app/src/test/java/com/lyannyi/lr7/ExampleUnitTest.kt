@@ -1,4 +1,4 @@
-package com.lyannyi.lr6
+package com.lyannyi.lr7
 
 import org.junit.Test
 

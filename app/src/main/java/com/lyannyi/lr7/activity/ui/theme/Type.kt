@@ -1,4 +1,4 @@
-package com.lyannyi.lr6.ui.theme
+package com.lyannyi.lr7.activity.ui.theme
 
 import androidx.compose.material3.Typography
 import androidx.compose.ui.text.TextStyle

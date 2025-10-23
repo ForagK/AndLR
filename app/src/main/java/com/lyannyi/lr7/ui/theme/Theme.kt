@@ -1,4 +1,4 @@
-package com.lyannyi.lr6.activity.ui.theme
+package com.lyannyi.lr7.ui.theme
 
 import android.app.Activity
 import android.os.Build
@@ -34,7 +34,7 @@ private val LightColorScheme = lightColorScheme(
 )
 
 @Composable
-fun LR6Theme(
+fun LR7Theme(
     darkTheme: Boolean = isSystemInDarkTheme(),
     // Dynamic color is available on Android 12+
     dynamicColor: Boolean = true,

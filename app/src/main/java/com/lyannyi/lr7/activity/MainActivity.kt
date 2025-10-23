@@ -1,11 +1,11 @@
-package com.lyannyi.lr6.activity
+package com.lyannyi.lr7.activity
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
-import com.lyannyi.lr6.ui.screen.MainScreen
-import com.lyannyi.lr6.viewmodel.MainViewModel
+import com.lyannyi.lr7.ui.screen.MainScreen
+import com.lyannyi.lr7.viewmodel.MainViewModel
 import kotlin.getValue
 
 class MainActivity : ComponentActivity() {

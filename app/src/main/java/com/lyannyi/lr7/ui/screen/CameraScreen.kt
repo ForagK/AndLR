@@ -1,9 +1,11 @@
-package com.lyannyi.lr6.ui.screen
+package com.lyannyi.lr7.ui.screen
 
 import android.media.MediaPlayer
+import android.util.Size
 import androidx.camera.core.*
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.camera.view.PreviewView
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
@@ -18,10 +20,15 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.compose.LocalLifecycleOwner
-import com.lyannyi.lr6.R
+import com.lyannyi.lr7.R
+import com.lyannyi.lr7.viewmodel.CameraViewModel
+import android.graphics.Bitmap
+import androidx.compose.ui.graphics.asImageBitmap
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 
 @Composable
-fun CameraScreen() {
+fun CameraScreen(viewModel: CameraViewModel) {
     val context = LocalContext.current
     val lifecycleOwner = LocalLifecycleOwner.current
 
@@ -34,6 +41,8 @@ fun CameraScreen() {
     val mediaPlayer = remember {
         MediaPlayer.create(context, R.raw.camera).apply { isLooping = false }
     }
+
+    var thumbnail by remember { mutableStateOf<Bitmap?>(null) }
 
     DisposableEffect(Unit) {
         onDispose {
@@ -59,6 +68,16 @@ fun CameraScreen() {
             )
         } catch (e: Exception) {
             e.printStackTrace()
+        }
+    }
+
+    LaunchedEffect(viewModel.lastPhotoUri.value) {
+        val uri = viewModel.lastPhotoUri.value
+
+        if (uri != null) {
+            thumbnail = withContext(Dispatchers.IO) {
+                context.contentResolver.loadThumbnail(uri, Size(200, 200), null)
+            }
         }
     }
 
@@ -119,13 +138,22 @@ fun CameraScreen() {
                 .background(Color.Black.copy(alpha = 0.5f))
                 .padding(16.dp)
         ) {
+            thumbnail?.let {
+                Image(
+                    bitmap = it.asImageBitmap(),
+                    contentDescription = "Thumbnail",
+                )
+            }
             Row(
                 modifier = Modifier.align(Alignment.Center),
                 horizontalArrangement = Arrangement.Center,
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Button(
-                    onClick = { mediaPlayer?.start() },
+                    onClick = {
+                        mediaPlayer?.start();
+                        viewModel.takePhoto(context, imageCapture);
+                    },
                     colors = ButtonDefaults.buttonColors(containerColor = Color.White.copy(alpha = 0.8f)),
                     shape = CircleShape,
                     modifier = Modifier.size(80.dp)

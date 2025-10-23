@@ -1,4 +1,4 @@
-package com.lyannyi.lr6.activity.ui.theme
+package com.lyannyi.lr7.activity.ui.theme
 
 import androidx.compose.ui.graphics.Color
 

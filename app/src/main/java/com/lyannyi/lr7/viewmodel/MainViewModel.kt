@@ -1,9 +1,9 @@
-package com.lyannyi.lr6.viewmodel
+package com.lyannyi.lr7.viewmodel
 
 import android.content.Context
 import android.media.MediaPlayer
 import androidx.lifecycle.ViewModel
-import com.lyannyi.lr6.R
+import com.lyannyi.lr7.R
 
 class MainViewModel : ViewModel() {
     private var mediaPlayer: MediaPlayer? = null

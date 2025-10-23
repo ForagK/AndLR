@@ -1,4 +1,4 @@
-package com.lyannyi.lr6.ui.screen
+package com.lyannyi.lr7.ui.screen
 
 import android.content.Intent
 import androidx.compose.foundation.layout.Arrangement
@@ -10,8 +10,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
-import com.lyannyi.lr6.activity.CameraActivity
-import com.lyannyi.lr6.activity.PlayerActivity
+import com.lyannyi.lr7.activity.CameraActivity
+import com.lyannyi.lr7.activity.FileManagerActivity
+import com.lyannyi.lr7.activity.PlayerActivity
+import com.lyannyi.lr7.viewmodel.FileManagerViewModel
 
 @Composable
 fun MainScreen() {
@@ -19,7 +21,7 @@ fun MainScreen() {
 
     Column(
         modifier = Modifier.fillMaxSize(),
-        verticalArrangement = Arrangement.Center,
+        verticalArrangement = Arrangement.SpaceEvenly,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Button(onClick = {
@@ -33,6 +35,12 @@ fun MainScreen() {
             context.startActivity(intent)
         }) {
             Text(text = "Player")
+        }
+        Button(onClick = {
+            val intent = Intent(context, FileManagerActivity::class.java)
+            context.startActivity(intent)
+        }) {
+            Text(text = "File Manager")
         }
     }
 }
