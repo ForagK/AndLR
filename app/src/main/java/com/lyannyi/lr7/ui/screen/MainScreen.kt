@@ -13,7 +13,6 @@ import androidx.compose.ui.platform.LocalContext
 import com.lyannyi.lr7.activity.CameraActivity
 import com.lyannyi.lr7.activity.FileManagerActivity
 import com.lyannyi.lr7.activity.PlayerActivity
-import com.lyannyi.lr7.viewmodel.FileManagerViewModel
 
 @Composable
 fun MainScreen() {
