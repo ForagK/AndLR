@@ -5,11 +5,11 @@ plugins {
 }
 
 android {
-    namespace = "com.lyannyi.lr7"
+    namespace = "com.lyannyi.lr8"
     compileSdk = 36
 
     defaultConfig {
-        applicationId = "com.lyannyi.lr7"
+        applicationId = "com.lyannyi.lr8"
         minSdk = 29
         targetSdk = 36
         versionCode = 1
