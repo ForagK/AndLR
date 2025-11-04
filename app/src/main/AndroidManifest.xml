@@ -12,6 +12,7 @@
     <uses-permission android:name="READ_MEDIA_AUDIO" />
 
     <application
+        android:name=".data.App"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
@@ -19,7 +20,11 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.LR8">
+        android:theme="@style/Theme.LR9">
+        <activity
+            android:name=".activity.DBActivity"
+            android:exported="false" />
+
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="${applicationId}.provider"
@@ -34,14 +39,14 @@
             android:name=".activity.PlayerActivity"
             android:exported="false"
             android:label="@string/title_activity_player"
-            android:theme="@style/Theme.LR8" />
+            android:theme="@style/Theme.LR9" />
         <activity
             android:name=".activity.CameraActivity"
             android:exported="false" />
         <activity
             android:name=".activity.MainActivity"
             android:exported="true"
-            android:theme="@style/Theme.LR8">
+            android:theme="@style/Theme.LR9">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -51,7 +56,7 @@
         <activity
             android:name=".activity.FileManagerActivity"
             android:exported="false"
-            android:theme="@style/Theme.LR8" />
+            android:theme="@style/Theme.LR9" />
     </application>
 
 </manifest>

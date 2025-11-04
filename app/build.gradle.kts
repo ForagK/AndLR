@@ -2,14 +2,15 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
+    id("kotlin-kapt")
 }
 
 android {
-    namespace = "com.lyannyi.lr8"
+    namespace = "com.lyannyi.lr9"
     compileSdk = 36
 
     defaultConfig {
-        applicationId = "com.lyannyi.lr8"
+        applicationId = "com.lyannyi.lr9"
         minSdk = 29
         targetSdk = 36
         versionCode = 1
@@ -67,4 +68,8 @@ dependencies {
     implementation(libs.camerax.view)
     implementation(libs.camerax.camera2)
     implementation(libs.camerax.extensions)
+    implementation(libs.androidx.room.runtime)
+    implementation(libs.androidx.room.ktx)
+    kapt(libs.androidx.room.compiler)
+
 }
