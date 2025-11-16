@@ -3,14 +3,16 @@ plugins {
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
     id("kotlin-kapt")
+    id("com.google.gms.google-services")
+    id("com.google.firebase.crashlytics")
 }
 
 android {
-    namespace = "com.lyannyi.lr10"
+    namespace = "com.lyannyi.lr11"
     compileSdk = 36
 
     defaultConfig {
-        applicationId = "com.lyannyi.lr10"
+        applicationId = "com.lyannyi.lr11"
         minSdk = 29
         targetSdk = 36
         versionCode = 1
@@ -71,5 +73,9 @@ dependencies {
     implementation(libs.androidx.room.runtime)
     implementation(libs.androidx.room.ktx)
     kapt(libs.androidx.room.compiler)
+    implementation(platform(libs.firebase.bom))
+    implementation(libs.firebase.auth)
+    implementation(libs.firebase.crashlytics)
+    implementation(libs.firebase.analytics)
 
 }

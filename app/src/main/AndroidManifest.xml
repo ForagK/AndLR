@@ -20,9 +20,13 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.LR10">
+        android:theme="@style/Theme.LR11">
         <activity
             android:name=".activity.DBActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".activity.AuthActivity"
             android:exported="false" />
 
         <activity
@@ -43,14 +47,14 @@
             android:name=".activity.PlayerActivity"
             android:exported="false"
             android:label="@string/title_activity_player"
-            android:theme="@style/Theme.LR10" />
+            android:theme="@style/Theme.LR11" />
         <activity
             android:name=".activity.CameraActivity"
             android:exported="false" />
         <activity
             android:name=".activity.MainActivity"
             android:exported="true"
-            android:theme="@style/Theme.LR10">
+            android:theme="@style/Theme.LR11">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -60,7 +64,7 @@
         <activity
             android:name=".activity.FileManagerActivity"
             android:exported="false"
-            android:theme="@style/Theme.LR10" />
+            android:theme="@style/Theme.LR11" />
     </application>
 
 </manifest>
