@@ -10,6 +10,8 @@
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="READ_MEDIA_AUDIO" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
         android:name=".data.App"
@@ -63,6 +65,10 @@
         </activity>
         <activity
             android:name=".activity.FileManagerActivity"
+            android:exported="false"
+            android:theme="@style/Theme.LR11" />
+        <activity
+            android:name=".activity.RetrofitActivity"
             android:exported="false"
             android:theme="@style/Theme.LR11" />
     </application>

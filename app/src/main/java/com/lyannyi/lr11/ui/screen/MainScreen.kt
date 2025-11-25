@@ -12,7 +12,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.auth
 import com.google.firebase.crashlytics.FirebaseCrashlytics
 import com.lyannyi.lr11.activity.AuthActivity
@@ -21,6 +20,7 @@ import com.lyannyi.lr11.activity.DBActivity
 import com.lyannyi.lr11.activity.FileManagerActivity
 import com.lyannyi.lr11.activity.PlayerActivity
 import com.lyannyi.lr11.activity.ProjectsActivity
+import com.lyannyi.lr11.activity.RetrofitActivity
 
 @Composable
 fun MainScreen() {
@@ -84,6 +84,12 @@ fun MainScreen() {
             }
         }) {
             Text(text = "Crash")
+        }
+        Button(onClick = {
+            val intent = Intent(context, RetrofitActivity::class.java)
+            context.startActivity(intent)
+        }) {
+            Text(text = "Retrofit")
         }
     }
 }

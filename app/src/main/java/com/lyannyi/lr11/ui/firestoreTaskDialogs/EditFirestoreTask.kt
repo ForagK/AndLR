@@ -27,7 +27,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.lyannyi.lr11.data.FirestoreTask
-import com.lyannyi.lr11.entity.Task
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale

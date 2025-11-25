@@ -3,17 +3,10 @@ package com.lyannyi.lr11.viewmodel
 import android.util.Log
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import com.google.firebase.Firebase
 import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.firestore
-import com.lyannyi.lr11.dao.TaskDao
-import com.lyannyi.lr11.data.App
 import com.lyannyi.lr11.data.FirestoreTask
-import com.lyannyi.lr11.entity.Task
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 class DBViewModel : ViewModel() {
     private val db = Firebase.firestore
