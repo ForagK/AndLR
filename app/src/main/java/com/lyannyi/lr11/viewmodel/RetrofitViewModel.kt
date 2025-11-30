@@ -1,49 +1,101 @@
 package com.lyannyi.lr11.viewmodel
 
-import androidx.compose.runtime.mutableStateOf
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.lyannyi.lr11.data.Photo
 import com.lyannyi.lr11.retrofit.RetrofitClient
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharedFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.onCompletion
+import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
 
 class RetrofitViewModel : ViewModel()  {
-    private val _photos = MutableLiveData<List<Photo>>()
-    val photos = _photos as LiveData<List<Photo>>
-    val createdPhoto = mutableStateOf<Photo?>(null)
-    var errorMessage = mutableStateOf<String?>(null)
+    private val _photos = MutableStateFlow<List<Photo>>(emptyList())
+    val photos: StateFlow<List<Photo>> = _photos
 
-    var isLoading = mutableStateOf(false)
+    private val _createdPhoto = MutableSharedFlow<Photo>()
+    val createdPhoto: SharedFlow<Photo> = _createdPhoto
+
+
+    private val _updatedPhoto = MutableSharedFlow<Photo>()
+    val updatedPhoto: SharedFlow<Photo> = _updatedPhoto
+
+    private val _deleteResponse = MutableSharedFlow<Boolean>()
+    val deleteResponse: SharedFlow<Boolean> = _deleteResponse
+
+    private val _errorMessage = MutableStateFlow<String?>(null)
+    val errorMessage: StateFlow<String?> = _errorMessage
+
+    private val _isLoading = MutableStateFlow(false)
+    val isLoading: StateFlow<Boolean> = _isLoading
 
     fun getPhotos(id: Int){
         viewModelScope.launch {
-            try {
-                isLoading.value = true
-                errorMessage.value = null
-                val photos = RetrofitClient.api.getPhotos(id)
-                if (photos.isEmpty()) throw Exception("Invalid id")
-                _photos.value = photos
+            flow {
+                emit(RetrofitClient.api.getPhotos(id))
             }
-            catch (error: Exception){
-                errorMessage.value = error.message
-                _photos.value = emptyList()
-            }
-            finally {
-                isLoading.value = false
-            }
+                .onStart {
+                    _isLoading.value = true
+                    _errorMessage.value = null
+                }
+                .catch { e ->
+                    _errorMessage.value = e.message
+                    emit(emptyList())
+                }
+                .onCompletion {
+                    _isLoading.value = false
+                }
+                .collect { photos ->
+                    if (photos.isEmpty()) {
+                        _errorMessage.value = "Invalid id"
+                    }
+                    _photos.value = photos
+                }
         }
     }
     fun createPhoto(photo: Photo){
         viewModelScope.launch {
-            try {
-                val newPhoto = RetrofitClient.api.createPhoto(photo)
-                createdPhoto.value = newPhoto
+            flow {
+                emit(RetrofitClient.api.createPhoto(photo))
             }
-            catch (error: Exception){
-                errorMessage.value = error.message
+                .catch { e ->
+                    _errorMessage.value = e.message
+                }
+                .collect { newPhoto ->
+                    _createdPhoto.emit(newPhoto)
+                }
+        }
+    }
+    fun updatePhoto(photo: Photo){
+        viewModelScope.launch {
+            flow {
+                emit(RetrofitClient.api.updatePhoto( photo.id!!, photo))
             }
+                .catch { e ->
+                    _errorMessage.value = e.message
+                }
+                .collect { newPhoto ->
+                    _updatedPhoto.emit(newPhoto)
+                }
+        }
+    }
+    fun deletePhoto(id: Int){
+        viewModelScope.launch {
+            flow {
+                val response = RetrofitClient.api.deletePhoto(id)
+                if (response.isSuccessful) emit(true) else throw Exception("Delete failed")
+            }
+                .catch { e ->
+                    _errorMessage.value = e.message
+                }
+                .collect { response ->
+                    _deleteResponse.emit(response)
+                }
         }
     }
 }
